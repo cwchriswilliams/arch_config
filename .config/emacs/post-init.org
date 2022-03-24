@@ -1,0 +1,94 @@
+#+TITLE: Emacs Configuration
+#+PROPERTY: header-args:emacs-lisp :tangle post-init.el
+
+* Introduction
+
+  This file will generate a post-init.el file. This should be loaded from init.el with ~(load-file "path-to-post-init.el")~
+
+* Auto-Tangle
+
+  Sets up Auto tangle on save
+
+#+BEGIN_SRC emacs-lisp
+
+  (defun cwchriswilliams/org-babel-auto-tangle()
+   (when (string-equal (buffer-file-name)
+		       (expand-file-name "~/D/I/arch_config/.config/emacs/post-init.org"))
+	  (org-babel-tangle)))
+
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'cwchriswilliams/org-babel-auto-tangle)))
+
+#+END_SRC
+
+* Backups
+
+  Change the backup handling to write to a specific directory to stop polluting git directories
+
+#+BEGIN_SRC emacs-lisp
+  (setq backup-by-copying t
+      backup-directory-alist
+      '(("." . "~/.emacs-backups/"))
+      delete-old-versions t
+      kept-new-versions 6
+      kept-old-versions 2
+      version-control t)
+#+END_SRC
+
+* Basic UI Configuration
+
+  Sets up the basic UI configuration with no dependency on external packages.
+
+** Frame Decoration
+
+   We don't use the scroll-bar or tool-bar so remove those always
+
+#+BEGIN_SRC emacs-lisp
+
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+#+END_SRC
+
+** Location Identification
+
+   Always highlight the current line.
+   Show column number in status bar.
+   Show line numbers except in terminal modes
+
+#+BEGIN_SRC emacs-lisp
+
+  (global-hl-line-mode +1)
+
+  (column-number-mode)
+
+  (global-display-line-numbers-mode t)
+      (dolist (mode '(term-mode-hook
+		    shell-mode-hook
+		    eshell-mode-hook))
+     (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+#+END_SRC
+
+** Trailing Whitespace
+
+   Delete trailing whitespace for programming modes
+
+#+BEGIN_SRC emacs-lisp
+
+  (add-hook 'prog-mode-hook
+	  (lambda ()
+	   (add-hook 'before-save-hook 'delete-trailing-whitespace)))
+
+#+END_SRC
+
+** Show Parens
+   Highlight the matching paren on closing paren.
+
+#+BEGIN_SRC emacs-lisp
+   (show-paren-mode 1)
+#+END_SRC
+
+** Font
+
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'default nil :font "Source Code Pro" :height 120)
+#+END_SRC

@@ -33,3 +33,21 @@
 (show-paren-mode 1)
 
 (set-face-attribute 'default nil :font "Source Code Pro" :height 120)
+
+(require 'package)
+
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/pacakges/") t)
+
+(package-initialize)
+
+(unless package-archive-contents
+ (package-refresh-contents))
+(package-install-selected-packages)
+
+(unless (package-installed-p 'use-package)
+ (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)

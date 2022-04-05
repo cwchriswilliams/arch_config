@@ -1,7 +1,10 @@
 (defun cwchriswilliams/org-babel-auto-tangle()
- (when (string-equal (buffer-file-name)
-		     (expand-file-name "~/D/I/arch_config/.config/emacs/post-init.org"))
-	(org-babel-tangle)))
+  (when (or
+	 (string-equal (buffer-file-name)
+		       (expand-file-name "~/D/I/arch_config/.config/emacs/post-init.org"))
+	 (string-equal (buffer-file-name)
+		       (expand-file-name "~/D/I/arch_config/.config/i3/config.org")))
+    (org-babel-tangle)))
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'cwchriswilliams/org-babel-auto-tangle)))
 

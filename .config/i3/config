@@ -171,4 +171,6 @@ bar {
 
 font pango:DejaVu Sans Mono 14
 
+focus_follows_mouse no
+
 bindsym $mod+d exec --no-startup-id rofi -show drun -font 'DejaVu 20' -show-icons -location 1 -width 100 -run-shell-command '{terminal} -e zsh -ic "{cmd} && read"'

@@ -193,6 +193,16 @@ font pango:DejaVu Sans Mono 14
 
 #+END_SRC
 
+** Disable Focus Follow Mouse
+
+   Disable the focused window following the mouse cursor
+
+#+BEGIN_SRC raw
+
+focus_follows_mouse no
+
+#+END_SRC
+
 * Launcher Setup
 
 ** Rofi setup

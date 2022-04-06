@@ -203,6 +203,69 @@ focus_follows_mouse no
 
 #+END_SRC
 
+** Theme
+
+Gruvbox style theme
+
+*** Colours
+
+#+BEGIN_SRC raw
+
+set $bg #282828
+set $red #cc241d
+set $green #98971a
+set $yellow #d79921
+set $blue #458588
+set $purple #b16286
+set $aqua #689d68
+set $gray #a89984
+set $darkgray #1d2021
+
+#+END_SRC
+
+*** Bar
+
+#+BEGIN_SRC raw
+
+bar {
+    font pango:Hack, FontAwesome 11
+    colors {
+        background $bg
+        statusline $yellow
+        focused_workspace $aqua $aqua $darkgray
+        inactive_workspace $darkgray $darkgray $yellow
+        active_workspace $darkgray $darkgray $yellow
+        urgent_workspace $red $red $bg
+    }
+}
+
+#+END_SRC
+
+*** Windows
+
+**** Colours
+
+#+BEGIN_SRC raw
+
+client.focused $green $green $darkgray $purple $aqua
+client.focused_inactive $darkgray $darkgray $yellow $purple $darkgray
+client.unfocused $darkgray $darkgray $yellow $pueple $darkgray
+client.urgent $red $red $white $red $red
+
+#+END_SRC
+
+**** Borders
+
+     Add a thin border, but no titlebar except in floating mode.
+
+#+BEGIN_SRC raw
+
+for_window [all] title_window_icon padding 5px
+default_border pixel 3px
+default_floating_border normal
+
+#+END_SRC
+
 * Launcher Setup
 
 ** Rofi setup

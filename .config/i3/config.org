@@ -175,12 +175,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-        status_command i3status
-}
-
 #+END_SRC
 
 * General UI Setup
@@ -223,24 +217,6 @@ set $darkgray #1d2021
 
 #+END_SRC
 
-*** Bar
-
-#+BEGIN_SRC raw
-
-bar {
-    font pango:Hack, FontAwesome 11
-    colors {
-        background $bg
-        statusline $yellow
-        focused_workspace $aqua $aqua $darkgray
-        inactive_workspace $darkgray $darkgray $yellow
-        active_workspace $darkgray $darkgray $yellow
-        urgent_workspace $red $red $bg
-    }
-}
-
-#+END_SRC
-
 *** Windows
 
 **** Colours
@@ -273,5 +249,26 @@ default_floating_border normal
 #+BEGIN_SRC raw
 
 bindsym $mod+d exec --no-startup-id rofi -show drun -font 'DejaVu 20' -show-icons -location 1 -width 100 -run-shell-command '{terminal} -e zsh -ic "{cmd} && read"'
+
+#+END_SRC
+
+* Status Bar
+
+  Use i3 blocks for the status bar instead of i3status
+
+#+BEGIN_SRC raw
+
+bar {
+    status_command i3blocks
+    font pango:Hack, FontAwesome 11
+    colors {
+        background $bg
+        statusline $yellow
+        focused_workspace $aqua $aqua $darkgray
+        inactive_workspace $darkgray $darkgray $yellow
+        active_workspace $darkgray $darkgray $yellow
+        urgent_workspace $red $red $bg
+    }
+}
 
 #+END_SRC

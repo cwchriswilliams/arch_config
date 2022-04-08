@@ -1,0 +1,26 @@
+#+TITLE: rofi Configuration
+#+PROPERTY: header-args:raw :tangle config.rasi
+
+* Introduction
+
+This file will generate a config file
+
+* Configuration
+
+#+BEGIN_SRC raw
+configuration {
+    font: "DejaVu 20";
+    location: 2;
+    width: 20px;
+}
+#+END_SRC
+
+* Theme
+
+Set rofi theme
+
+#+BEGIN_SRC raw
+
+@theme "gruvbox-dark-soft"
+
+#+END_SRC

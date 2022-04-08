@@ -1,0 +1,7 @@
+configuration {
+    font: "DejaVu 20";
+    location: 2;
+    width: 20px;
+}
+
+@theme "gruvbox-dark-soft"

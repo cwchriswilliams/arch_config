@@ -1,0 +1,21 @@
+#+TITLE: XOrg libinput configuration
+#+PROPERTY: header-args:raw :tangle 41-libinput-user.conf
+
+* Introduction
+
+Generates 41-libinput-user.conf that should be copied or linked to /usr/share/X11/xorg.conf.d/41-libinput-user.conf
+
+* Touchpad
+
+** Enable Natural Scrolling
+
+This makes scrolling down move up and vice versa.
+
+#+BEGIN_SRC raw
+
+Section "InputClass"
+    Identifier "libinput touchpad catchall"
+    Option "NaturalScrolling" "on"
+EndSection
+
+#+END_SRC

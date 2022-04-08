@@ -11,15 +11,19 @@
 
 #+BEGIN_SRC emacs-lisp
 
-  (defun cwchriswilliams/org-babel-auto-tangle()
-    (when (or
-	   (string-equal (buffer-file-name)
-			 (expand-file-name "~/D/I/arch_config/.config/emacs/post-init.org"))
-	   (string-equal (buffer-file-name)
-			 (expand-file-name "~/D/I/arch_config/.config/i3/config.org")))
-      (org-babel-tangle)))
+	  (defun cwchriswilliams/org-babel-auto-tangle()
+	    (when (or
+		   (string-equal (buffer-file-name)
+				 (expand-file-name "~/D/I/arch_config/.config/emacs/post-init.org"))
+		   (string-equal (buffer-file-name)
+				 (expand-file-name "~/D/I/arch_config/.config/i3/config.org"))
+		   (string-equal (buffer-file-name)
+				 (expand-file-name "~/D/I/arch_config/.config/rofi/config.org"))
+		   (string-equal (buffer-file-name)
+				 (expand-file-name "~/D/I/arch_config/usr/share/X11/xorg.conf.d/41-libinput-user.org")))
+	      (org-babel-tangle)))
 
-  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'cwchriswilliams/org-babel-auto-tangle)))
+	  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'cwchriswilliams/org-babel-auto-tangle)))
 
 #+END_SRC
 

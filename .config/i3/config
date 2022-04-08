@@ -186,7 +186,7 @@ for_window [all] title_window_icon padding 5px
 default_border pixel 3px
 default_floating_border normal
 
-bindsym $mod+d exec --no-startup-id rofi -show drun -font 'DejaVu 20' -show-icons -location 1 -width 100 -run-shell-command '{terminal} -e zsh -ic "{cmd} && read"'
+bindsym $mod+d exec --no-startup-id rofi -show drun -show-icons -run-shell-command '{terminal} -e zsh -ic "{cmd} && read"'
 
 bar {
     status_command i3blocks

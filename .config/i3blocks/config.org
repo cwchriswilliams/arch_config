@@ -1,0 +1,148 @@
+#+TITLE: i3blocks Configuration
+#+PROPERTY: header-args:raw :tangle config
+
+* Introduction
+
+This will generate a config file for i3blocks
+
+* Initial Setup
+
+** Default Config
+
+#+BEGIN_SRC raw
+
+separator_block_width=15
+
+#+END_SRC
+
+* Audio Configuration
+
+** Volume Slider
+
+#+BEGIN_SRC raw
+
+[volume-pulseaudio]
+command=$SCRIPT_DIR/i3blocks-contrib/$BLOCK_NAME/$BLOCK_NAME
+interval=once
+signal=1
+
+#+END_SRC
+
+* Information
+
+** Show Host Information
+
+#+BEGIN_SRC raw
+
+[ip]
+command=echo \[$(ip -json route get 8.8.8.8 | jq -r '.[].prefsrc')\] $(hostname)@$(whoami)
+interval=once
+color=#91E78B
+
+#+END_SRC
+
+** Show Disk Usage
+
+#+BEGIN_SRC raw
+
+[disk]
+command=$SCRIPT_DIR/i3blocks-contrib/$BLOCK_NAME/$BLOCK_NAME
+label=HOME---
+interval=30
+separator=false
+
+#+END_SRC
+
+** Show Memory Usage
+
+#+BEGIN_SRC raw
+
+[memory]
+command=$SCRIPT_DIR/i3blocks-contrib/$BLOCK_NAME/$BLOCK_NAME
+label=MEM---
+interval=30
+separator=false
+
+#+END_SRC
+
+** Show CPU Usage
+
+#+BEGIN_SRC raw
+
+[cpu_usage]
+command=$SCRIPT_DIR/i3blocks-contrib/$BLOCK_NAME/$BLOCK_NAME
+label=CPU---
+interval=10
+min_width=CPU---100.00%
+
+#+END_SRC
+
+* Key States
+
+** Capslock
+
+#+BEGIN_SRC raw
+
+[keyindicator]
+command=$SCRIPT_DIR/i3blocks-contrib/$BLOCK_NAME/$BLOCK_NAME
+instance=CAPS
+interval=once
+signal=11
+markup=pango
+
+#+END_SRC
+
+** NumLock
+
+#+BEGIN_SRC raw
+
+[keyindicator]
+command=$SCRIPT_DIR/i3blocks-contrib/$BLOCK_NAME/$BLOCK_NAME
+instance=NUM
+interval=once
+signal=11
+markup=pango
+
+#+END_SRC
+
+* Network
+
+** Wi-fi
+
+#+BEGIN_SRC raw
+
+[wifi]
+command=$SCRIPT_DIR/i3blocks-contrib/$BLOCK_NAME/$BLOCK_NAME
+label=---
+instance=wlp170s0
+interval=10
+separator=false
+
+[ssid]
+command=$SCRIPT_DIR/i3blocks-contrib/$BLOCK_NAME/$BLOCK_NAME
+instance=wlp170s0
+interval=30
+
+#+END_SRC
+
+* Battery
+
+#+BEGIN_SRC raw
+
+[battery2]
+command=$SCRIPT_DIR/i3blocks-contrib/$BLOCK_NAME/$BLOCK_NAME
+markup=pango
+interval=30
+
+#+END_SRC
+
+* Time
+
+#+BEGIN_SRC raw
+
+[calendar]
+command=$SCRIPT_DIR/i3blocks-contrib/$BLOCK_NAME/$BLOCK_NAME
+interval=30
+DATEFMT=+%a %Y-%m-%d %H:%M
+
+#+END_SRC

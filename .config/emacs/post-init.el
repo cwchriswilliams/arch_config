@@ -7,7 +7,10 @@
 	 (string-equal (buffer-file-name)
 		       (expand-file-name "~/D/I/arch_config/.config/rofi/config.org"))
 	 (string-equal (buffer-file-name)
-		       (expand-file-name "~/D/I/arch_config/usr/share/X11/xorg.conf.d/41-libinput-user.org")))
+		       (expand-file-name "~/D/I/arch_config/usr/share/X11/xorg.conf.d/41-libinput-user.org"))
+	 (string-equal (buffer-file-name)
+		       (expand-file-name "~/D/I/arch_config/.config/i3blocks/config.org"))
+	 )
     (org-babel-tangle)))
 
 (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'cwchriswilliams/org-babel-auto-tangle)))

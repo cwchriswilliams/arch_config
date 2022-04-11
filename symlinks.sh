@@ -1,6 +1,7 @@
 #!/bin/bash
 ln -s $(readlink -f .config/emacs) ~/.config/emacs
 ln -s $(readlink -f .config/i3) ~/.config/i3
+ln -s $(readlink -f .config/i3blocks) ~/.config/i3blocks
 ln -s $(readlink -f .config/rofi) ~/.config/rofi
 
 # Require sudo

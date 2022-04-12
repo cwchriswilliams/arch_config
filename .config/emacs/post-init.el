@@ -42,7 +42,7 @@
 
 (show-paren-mode 1)
 
-(set-face-attribute 'default nil :font "Source Code Pro" :height 120)
+(set-face-attribute 'default nil :font "Source Code Pro" :height 140)
 
 (require 'package)
 

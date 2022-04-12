@@ -71,6 +71,10 @@
 (use-package doom-modeline
   :init (doom-modeline-mode 1))
 
+(use-package which-key
+ :custom (which-key-idle-delay 0.3)
+ :config (which-key-mode))
+
 (use-package evil
   :config (evil-mode 1))
 

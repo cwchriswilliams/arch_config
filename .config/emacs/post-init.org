@@ -142,3 +142,12 @@ Setup use-package which allows for cleaner specification of pacakges and package
   (setq use-package-always-ensure t)
 
 #+END_SRC
+
+* Theme
+
+#+BEGIN_SRC emacs-lisp
+
+    (use-package gruvbox-theme
+     :config (load-theme 'gruvbox-dark-medium t))
+
+#+END_SRC

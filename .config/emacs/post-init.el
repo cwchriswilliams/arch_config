@@ -61,3 +61,6 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
+
+(use-package gruvbox-theme
+ :config (load-theme 'gruvbox-dark-medium t))

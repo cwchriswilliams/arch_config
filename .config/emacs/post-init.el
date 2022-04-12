@@ -70,3 +70,11 @@
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1))
+
+(use-package evil
+  :config (evil-mode 1))
+
+(use-package evil-collection
+ :after evil
+ :init (setq evil-want-keybinding nil)
+ :config (evil-collection-init))

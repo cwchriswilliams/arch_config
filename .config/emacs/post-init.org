@@ -163,3 +163,31 @@ Use Doom-modeline for modeline (all-the-icons is a dependency)
   (use-package doom-modeline
     :init (doom-modeline-mode 1))
 #+END_SRC
+
+* Evil Mode
+
+Enable Evil Mode for vim keybindings
+
+** Basic Evil Mode
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package evil
+    :config (evil-mode 1))
+
+#+END_SRC
+
+** Evil Collection
+
+Evil Collection enables evil bindings in more modes.
+
+NOTE: Requires evil-want-keybinding to be nil
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package evil-collection
+   :after evil
+   :init (setq evil-want-keybinding nil)
+   :config (evil-collection-init))
+
+#+END_SRC

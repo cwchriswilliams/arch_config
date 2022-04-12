@@ -179,6 +179,8 @@ for_window [all] title_window_icon padding 5px
 default_border pixel 3px
 default_floating_border normal
 
+exec --no-startup-id ~/.fehbg
+
 bindsym $mod+d exec --no-startup-id rofi -show drun -show-icons -run-shell-command '{terminal} -e zsh -ic "{cmd} && read"'
 
 bar {

@@ -235,6 +235,16 @@ default_floating_border normal
 
 #+END_SRC
 
+*** Wallpaper
+
+This assumes you have already run feh --bg-fill <path to image>
+
+#+BEGIN_SRC raw
+
+exec --no-startup-id ~/.fehbg
+
+#+END_SRC
+
 * Launcher Setup
 
 ** Rofi setup

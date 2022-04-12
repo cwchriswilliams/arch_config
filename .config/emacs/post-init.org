@@ -151,3 +151,15 @@ Setup use-package which allows for cleaner specification of pacakges and package
      :config (load-theme 'gruvbox-dark-medium t))
 
 #+END_SRC
+
+* Modeline setup
+
+Use Doom-modeline for modeline (all-the-icons is a dependency)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons
+    :if (display-graphic-p))
+
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1))
+#+END_SRC

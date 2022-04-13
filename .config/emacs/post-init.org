@@ -259,11 +259,55 @@ Avy is a quick-jump tool that works across buffers
 
 #+END_SRC
 
+** Ivy/Counsel
+
+Ivy/Counsel is the base for a lot of actions, but generally under the category of filtering and searching
+
+*** Initial setup
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package counsel
+  :config (counsel-mode 1)
+          (ivy-mode 1))
+
+#+END_SRC
+
+*** Ivy-Rich
+
+ivy-rich enables a more friendly interface to ivy
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package ivy-rich
+  :config (ivy-rich-mode 1))
+
+#+END_SRC
+
+*** Helpful
+
+Helpful is a better help tool for emacs. Bindings for counsel are here.
+
+#+BEGIN_SRC emacs-lisp
+    (use-package helpful
+    :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable))
+
+
+#+END_SRC
+
 ** Keybinds
 
 #+BEGIN_SRC emacs-lisp
 
-  (general-def '(normal insert visual motion) "C-'" 'avy-goto-char-timer)
+    (general-def '(normal insert visual motion)
+     "C-'" 'avy-goto-char-timer
+     "C-f" 'swiper
+  [remap describe-function] 'counsel-describe-function
+  [remap descibe-command] 'helpful-command
+  [remap describe-variable] 'counsel-describe-variable
+  [remap describe-key] 'helpful-key)
 
 #+END_SRC
 

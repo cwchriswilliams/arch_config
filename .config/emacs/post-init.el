@@ -99,7 +99,25 @@
 
 (use-package avy)
 
-(general-def '(normal insert visual motion) "C-'" 'avy-goto-char-timer)
+(use-package counsel
+:config (counsel-mode 1)
+        (ivy-mode 1))
+
+(use-package ivy-rich
+:config (ivy-rich-mode 1))
+
+(use-package helpful
+  :custom
+(counsel-describe-function-function #'helpful-callable)
+(counsel-describe-variable-function #'helpful-variable))
+
+(general-def '(normal insert visual motion)
+   "C-'" 'avy-goto-char-timer
+   "C-f" 'swiper
+[remap describe-function] 'counsel-describe-function
+[remap descibe-command] 'helpful-command
+[remap describe-variable] 'counsel-describe-variable
+[remap describe-key] 'helpful-key)
 
 (general-def '(motion normal insert visual)
  "C-z" 'undo

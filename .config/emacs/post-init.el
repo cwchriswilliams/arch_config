@@ -121,6 +121,10 @@
 [remap describe-variable] 'counsel-describe-variable
 [remap describe-key] 'helpful-key)
 
+(use-package treemacs)
+
+(use-package treemacs-evil)
+
 (general-def '(motion normal insert visual)
  "C-z" 'undo
  "C-S-z" 'undo-redo

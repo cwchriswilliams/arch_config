@@ -314,6 +314,29 @@ Helpful is a better help tool for emacs. Bindings for counsel are here.
 
 #+END_SRC
 
+* File Browsing
+
+** Treemacs Setup
+
+*** Initial Setup
+
+Use Treemacs as a kind of explorer like in vscode
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package treemacs)
+
+#+END_SRC
+
+*** Evil keybinds
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package treemacs-evil)
+
+#+END_SRC
+
+
 * Lame Shortcuts
 
 A bunch of non-emacs or vim style shortcuts that are consistent with other software

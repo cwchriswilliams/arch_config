@@ -237,6 +237,16 @@ Magit is the main git client being used
 
 #+END_SRC
 
+** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+
+  (personal/leader-key
+   "g" '(:ignore t :which-key "git")
+   "gs" 'magit-status)
+
+#+END_SRC
+
 * Lame Shortcuts
 
 A bunch of non-emacs or vim style shortcuts that are consistent with other software

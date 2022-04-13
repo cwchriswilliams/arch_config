@@ -93,6 +93,10 @@
 (use-package magit
  :custom (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 
+(personal/leader-key
+ "g" '(:ignore t :which-key "git")
+ "gs" 'magit-status)
+
 (general-def '(motion normal insert visual)
  "C-z" 'undo
  "C-S-z" 'undo-redo

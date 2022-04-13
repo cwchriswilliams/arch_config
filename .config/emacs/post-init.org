@@ -336,6 +336,31 @@ Use Treemacs as a kind of explorer like in vscode
 
 #+END_SRC
 
+* Programming
+
+** Parenthesis Configuration
+
+*** Rainbow-Delimiters
+
+Rainbow Delimiters alternates colours to better show the matched parens
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package rainbow-delimiters
+   :hook (prog-mode . rainbow-delimiters-mode))
+
+#+END_SRC
+
+*** Structural Editing
+
+Use paredit to ensure that parens cannot be unmatched
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package paredit
+   :hook (prog-mode . enable-paredit-mode))
+
+#+END_SRC
 
 * Lame Shortcuts
 

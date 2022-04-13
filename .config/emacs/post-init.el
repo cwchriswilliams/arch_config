@@ -125,6 +125,12 @@
 
 (use-package treemacs-evil)
 
+(use-package rainbow-delimiters
+ :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package paredit
+ :hook (prog-mode . enable-paredit-mode))
+
 (general-def '(motion normal insert visual)
  "C-z" 'undo
  "C-S-z" 'undo-redo

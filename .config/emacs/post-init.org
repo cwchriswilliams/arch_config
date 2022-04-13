@@ -347,7 +347,7 @@ Use company-mode for auto-completion
   (use-package company
    :demand
    :config (global-company-mode)
-   :general ("S-SPC" 'company-complete))
+   :general ("C-S-SPC" 'company-complete))
 
 #+END_SRC
 

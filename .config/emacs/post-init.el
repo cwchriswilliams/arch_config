@@ -128,7 +128,7 @@
 (use-package company
  :demand
  :config (global-company-mode)
- :general ("S-SPC" 'company-complete))
+ :general ("C-S-SPC" 'company-complete))
 
 (use-package rainbow-delimiters
  :hook (prog-mode . rainbow-delimiters-mode))

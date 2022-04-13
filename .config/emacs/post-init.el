@@ -115,6 +115,7 @@
 (general-def '(normal insert visual motion)
    "C-'" 'avy-goto-char-timer
    "C-f" 'swiper
+   "C-S-p" 'counsel-M-x
 [remap describe-function] 'counsel-describe-function
 [remap descibe-command] 'helpful-command
 [remap describe-variable] 'counsel-describe-variable

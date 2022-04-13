@@ -97,6 +97,10 @@
  "g" '(:ignore t :which-key "git")
  "gs" 'magit-status)
 
+(use-package avy)
+
+(general-def '(normal insert visual motion) "C-'" 'avy-goto-char-timer)
+
 (general-def '(motion normal insert visual)
  "C-z" 'undo
  "C-S-z" 'undo-redo

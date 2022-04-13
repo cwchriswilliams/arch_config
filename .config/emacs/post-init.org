@@ -247,6 +247,26 @@ Magit is the main git client being used
 
 #+END_SRC
 
+* Search/Find
+
+** Avy
+
+Avy is a quick-jump tool that works across buffers
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package avy)
+
+#+END_SRC
+
+** Keybinds
+
+#+BEGIN_SRC emacs-lisp
+
+  (general-def '(normal insert visual motion) "C-'" 'avy-goto-char-timer)
+
+#+END_SRC
+
 * Lame Shortcuts
 
 A bunch of non-emacs or vim style shortcuts that are consistent with other software

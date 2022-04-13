@@ -221,3 +221,16 @@ NOTE: Requires evil-want-keybinding to be nil
    :config (evil-collection-init))
 
 #+END_SRC
+
+* Git Integration
+
+** Magit
+
+Magit is the main git client being used
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package magit
+   :custom (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+
+#+END_SRC

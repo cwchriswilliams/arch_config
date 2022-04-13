@@ -89,3 +89,6 @@
 (use-package evil-collection
  :after evil
  :config (evil-collection-init))
+
+(use-package magit
+ :custom (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))

@@ -75,10 +75,17 @@
  :custom (which-key-idle-delay 0.3)
  :config (which-key-mode))
 
+(use-package general
+ :demand
+ :config
+ (general-create-definer personal/leader-key
+  :states '(normal visual insert motion)
+  :prefix "C-SPC"))
+
 (use-package evil
+  :init (setq evil-want-keybinding nil)
   :config (evil-mode 1))
 
 (use-package evil-collection
  :after evil
- :init (setq evil-want-keybinding nil)
  :config (evil-collection-init))

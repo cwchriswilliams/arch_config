@@ -1,3 +1,4 @@
 .config/emacs/elpa
+.config/emacs/transient
 .config/emacs/auto-save-list
 .config/i3blocks/blocks/i3blocks-contrib

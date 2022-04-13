@@ -176,15 +176,34 @@ which-key is a very useful tool for indicating what actions keys will do in vari
 
 #+END_SRC
 
+* General-Def
+
+General provides smarter key-bind setup.
+Note that states are required because we're using evil mode.
+
+#+BEGIN_SRC emacs-lisp
+
+      (use-package general
+       :demand
+       :config
+       (general-create-definer personal/leader-key
+	:states '(normal visual insert motion)
+	:prefix "C-SPC"))
+
+#+END_SRC
+
 * Evil Mode
 
 Enable Evil Mode for vim keybindings
 
 ** Basic Evil Mode
 
+NOTE: Evil collection requires evil-want-keybinding to be nil. Putting it here prevents a warning
+
 #+BEGIN_SRC emacs-lisp
 
   (use-package evil
+    :init (setq evil-want-keybinding nil)
     :config (evil-mode 1))
 
 #+END_SRC
@@ -199,7 +218,6 @@ NOTE: Requires evil-want-keybinding to be nil
 
   (use-package evil-collection
    :after evil
-   :init (setq evil-want-keybinding nil)
    :config (evil-collection-init))
 
 #+END_SRC

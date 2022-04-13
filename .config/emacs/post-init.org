@@ -336,6 +336,21 @@ Use Treemacs as a kind of explorer like in vscode
 
 #+END_SRC
 
+* Auto-Completion
+
+** Initial Setup
+
+Use company-mode for auto-completion
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package company
+   :demand
+   :config (global-company-mode)
+   :general ("S-SPC" 'company-complete))
+
+#+END_SRC
+
 * Programming
 
 ** Parenthesis Configuration

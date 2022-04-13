@@ -178,17 +178,19 @@ which-key is a very useful tool for indicating what actions keys will do in vari
 
 * General-Def
 
+** Initial Setup
+
 General provides smarter key-bind setup.
 Note that states are required because we're using evil mode.
 
 #+BEGIN_SRC emacs-lisp
 
-      (use-package general
-       :demand
-       :config
-       (general-create-definer personal/leader-key
-	:states '(normal visual insert motion)
-	:prefix "C-SPC"))
+  (use-package general
+   :demand
+   :config
+   (general-create-definer personal/leader-key
+    :states '(normal visual insert motion)
+    :prefix "C-SPC"))
 
 #+END_SRC
 
@@ -232,5 +234,22 @@ Magit is the main git client being used
 
   (use-package magit
    :custom (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+
+#+END_SRC
+
+* Lame Shortcuts
+
+A bunch of non-emacs or vim style shortcuts that are consistent with other software
+
+#+BEGIN_SRC emacs-lisp
+
+    (general-def '(motion normal insert visual)
+     "C-z" 'undo
+     "C-S-z" 'undo-redo
+     "C-s" 'save-buffer
+     "C-S-c" 'clipboard-kill-ring-save
+     "C-S-v" 'clipboard-yank
+     "C-S-x" 'clipboard-kill-region
+     "C-<tab>" 'switch-to-buffer)
 
 #+END_SRC

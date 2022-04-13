@@ -92,3 +92,12 @@
 
 (use-package magit
  :custom (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+
+(general-def '(motion normal insert visual)
+ "C-z" 'undo
+ "C-S-z" 'undo-redo
+ "C-s" 'save-buffer
+ "C-S-c" 'clipboard-kill-ring-save
+ "C-S-v" 'clipboard-yank
+ "C-S-x" 'clipboard-kill-region
+ "C-<tab>" 'switch-to-buffer)

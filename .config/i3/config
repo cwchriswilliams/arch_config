@@ -215,3 +215,5 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
 bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 bindsym --release Num_Lock exec pkill -SIGRTMIN+11 i3blocks
+
+exec_always --no-startup-id exec i3-workspace-names-daemon --uniq

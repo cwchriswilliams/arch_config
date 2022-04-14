@@ -81,7 +81,10 @@
  :config
  (general-create-definer personal/leader-key
   :states '(normal visual insert motion)
-  :prefix "C-SPC"))
+  :prefix "C-SPC")
+ (general-create-definer personal/refactor
+  :states '(normal visual insert motion)
+  :prefix "M-RET"))
 
 (use-package evil
   :init (setq evil-want-keybinding nil)
@@ -135,6 +138,89 @@
 
 (use-package paredit
  :hook (prog-mode . enable-paredit-mode))
+
+(use-package lsp-mode
+ :init (setq lsp-keymap-prefix "C-C l")
+ :custom (lsp-lens-enable t)
+ :hook (lsp-mode . lsp-enable-which-key-integration))
+
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+(use-package dap-mode)
+
+(use-package yasnippet
+  :config (yas-global-mode 1))
+
+(use-package dash
+  :after yasnippet)
+
+(use-package ivy-yasnippet
+  :after yasnippet dash
+  :config 'ivy-yasnippet)
+
+(use-package clojure-mode)
+
+(add-hook 'clojure-mode 'lsp)
+(add-hook 'clojurescript-mode 'lsp)
+(add-hook 'clojurec-mode 'lsp)
+
+(use-package clj-refactor
+  :hook ((clojure-mode . clj-refactor-mode)
+	 (clojurec-mode . clj-refactor-mode)
+	 (clojurescript-mode . clj-refactor-mode))
+ :config (cljr-add-keybindings-with-prefix "M-RET"))
+
+(use-package clojure-snippets
+  :after yasnippet clojure-mode)
+
+(use-package cider
+  :commands (cider cider-connect cider-jack-in)
+  :custom
+  (cider-eval-toplevel-inside-comment-form t)
+  (clojure-toplevel-inside-comment-form t))
+
+(personal/leader-key
+  "'" '(:ignore t :which-key "cider")
+  "'j" '(:ignore t :which-key "jack-in")
+  "'jj" 'cider-jack-in-clj
+  "'js" 'cider-jack-in-cljs
+  "'jc" 'cider-jack-in-clj&cljs
+
+  "s" 'sesman-map
+
+  "h" '(:ignore t :which-key "doc")
+  "hd" 'cider-doc
+  "hj" 'cider-javadoc
+  "hc" 'cider-clojure-docs
+  "ha" 'cider-apropos
+  "hA" 'cider-apropos-documentation
+  "hw" 'cider-clojuredocs-web
+  "hn" 'cider-browse-ns
+
+  "e" '(:ignore t :which-key "eval")
+  "ee" 'cider-eval-defun-at-point
+  "ef" 'cider-eval-last-sexp
+  "eb" 'cider-eval-buffer
+  "ec" 'cider-eval-commands-map)
+
+(general-def '(normal visual insert motion) "C-<return>" 'cider-eval-defun-at-point)
+
+(personal/refactor
+ "a" '(:ignore t :which-key "add")
+ "c" '(:ignore t :which-key "cycle")
+ "d" '(:ignore t :which-key "destructure")
+ "e" '(:ignore t :which-key "extract/expand")
+ "f" '(:ignore t :which-key "function")
+ "h" '(:ignore t :which-key "hydra/hotload")
+ "i" '(:ignore t :which-key "introduce/inline")
+ "m" '(:ignore t :which-key "move")
+ "p" '(:ignore t :which-key "project/promote")
+ "r" '(:ignore t :which-key "rename/remove")
+ "s" '(:ignore t :which-key "sort/stop deps")
+ "t" '(:ignore t :which-key "thread")
+ "u" '(:ignore t :which-key "unwind"))
 
 (general-def '(motion normal insert visual)
  "C-z" 'undo

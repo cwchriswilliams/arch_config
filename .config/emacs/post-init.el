@@ -272,4 +272,5 @@
  "C-S-c" 'clipboard-kill-ring-save
  "C-S-v" 'clipboard-yank
  "C-S-x" 'clipboard-kill-region
- "C-<tab>" 'switch-to-buffer)
+ "C-<tab>" 'switch-to-buffer
+ "C-S-f" 'projectile-ripgrep)

@@ -680,13 +680,14 @@ A bunch of non-emacs or vim style shortcuts that are consistent with other softw
 
 #+BEGIN_SRC emacs-lisp
 
-    (general-def '(motion normal insert visual)
-     "C-z" 'undo
-     "C-S-z" 'undo-redo
-     "C-s" 'save-buffer
-     "C-S-c" 'clipboard-kill-ring-save
-     "C-S-v" 'clipboard-yank
-     "C-S-x" 'clipboard-kill-region
-     "C-<tab>" 'switch-to-buffer)
+  (general-def '(motion normal insert visual)
+   "C-z" 'undo
+   "C-S-z" 'undo-redo
+   "C-s" 'save-buffer
+   "C-S-c" 'clipboard-kill-ring-save
+   "C-S-v" 'clipboard-yank
+   "C-S-x" 'clipboard-kill-region
+   "C-<tab>" 'switch-to-buffer
+   "C-S-f" 'projectile-ripgrep)
 
 #+END_SRC

@@ -419,6 +419,15 @@ Language Server Protocol setup (connects to a running external language server t
 
 #+END_SRC
 
+** Syntax Checking
+
+*** Flycheck Setup
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package flycheck)
+
+#+END_SRC
 
 ** Snippets
 

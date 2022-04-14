@@ -94,8 +94,23 @@
  :after evil
  :config (evil-collection-init))
 
+(use-package treemacs)
+
+(use-package treemacs-evil)
+
 (use-package magit
  :custom (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+
+(use-package treemacs-magit)
+
+(use-package forge :after magit)
+
+(use-package magit-gitflow
+  :hook 'magit-mode-hook (turn-on-magit-gitflow))
+
+(use-package magit-todos
+  :after magit
+  :config (magit-todos-mode t))
 
 (personal/leader-key
  "g" '(:ignore t :which-key "git")
@@ -123,10 +138,6 @@
 [remap descibe-command] 'helpful-command
 [remap describe-variable] 'counsel-describe-variable
 [remap describe-key] 'helpful-key)
-
-(use-package treemacs)
-
-(use-package treemacs-evil)
 
 (use-package company
  :demand

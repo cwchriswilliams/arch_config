@@ -229,6 +229,28 @@ NOTE: Requires evil-want-keybinding to be nil
 
 #+END_SRC
 
+* File Browsing
+
+** Treemacs Setup
+
+*** Initial Setup
+
+Use Treemacs as a kind of explorer like in vscode
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package treemacs)
+
+#+END_SRC
+
+*** Evil keybinds
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package treemacs-evil)
+
+#+END_SRC
+
 * Git Integration
 
 ** Magit
@@ -239,6 +261,41 @@ Magit is the main git client being used
 
   (use-package magit
    :custom (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
+
+#+END_SRC
+
+Treemacs support
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package treemacs-magit)
+
+#+END_SRC
+
+PR support
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package forge :after magit)
+
+#+END_SRC
+
+Gitflow
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package magit-gitflow
+    :hook 'magit-mode-hook (turn-on-magit-gitflow))
+
+#+END_SRC
+
+Show TODOs on Status
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package magit-todos
+    :after magit
+    :config (magit-todos-mode t))
 
 #+END_SRC
 
@@ -314,28 +371,6 @@ Helpful is a better help tool for emacs. Bindings for counsel are here.
   [remap descibe-command] 'helpful-command
   [remap describe-variable] 'counsel-describe-variable
   [remap describe-key] 'helpful-key)
-
-#+END_SRC
-
-* File Browsing
-
-** Treemacs Setup
-
-*** Initial Setup
-
-Use Treemacs as a kind of explorer like in vscode
-
-#+BEGIN_SRC emacs-lisp
-
-  (use-package treemacs)
-
-#+END_SRC
-
-*** Evil keybinds
-
-#+BEGIN_SRC emacs-lisp
-
-  (use-package treemacs-evil)
 
 #+END_SRC
 

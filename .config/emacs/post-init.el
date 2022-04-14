@@ -222,6 +222,8 @@
  "t" '(:ignore t :which-key "thread")
  "u" '(:ignore t :which-key "unwind"))
 
+(personal/leader-key "i" 'ivy-yasnippet)
+
 (general-def '(motion normal insert visual)
  "C-z" 'undo
  "C-S-z" 'undo-redo

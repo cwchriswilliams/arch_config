@@ -546,6 +546,14 @@ Depends on dash
 
 #+END_SRC
 
+** Programming Keybinds
+
+#+BEGIN_SRC emacs-lisp
+
+  (personal/leader-key "i" 'ivy-yasnippet)
+
+#+END_SRC
+
 * Lame Shortcuts
 
 A bunch of non-emacs or vim style shortcuts that are consistent with other software

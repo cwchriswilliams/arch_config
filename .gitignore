@@ -2,3 +2,4 @@
 .config/emacs/transient
 .config/emacs/auto-save-list
 .config/i3blocks/blocks/i3blocks-contrib
+/.config/emacs/projectile-bookmarks.eld

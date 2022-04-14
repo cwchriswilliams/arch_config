@@ -133,6 +133,25 @@
  :config (global-company-mode)
  :general ("C-S-SPC" 'company-complete))
 
+(use-package projectile
+ :demand
+ :general ("C-c p" 'projectile-command-map)
+ :init (when (file-directory-p "~/D/I")
+	 (setq projectile-project-search-path '("~D/I")))
+ :config (projectile-mode +1))
+
+(use-package ripgrep :demand)
+
+(use-package projectile-ripgrep :after projectile ripgrep)
+
+(use-package counsel-projectile :after projectile :config (counsel-projectile-mode t))
+
+(use-package treemacs-projectile :after projectile)
+
+(personal/leader-key
+  "p" 'projectile-command-map
+  "ps" '(:ignore t :which-key "search"))
+
 (use-package rainbow-delimiters
  :hook (prog-mode . rainbow-delimiters-mode))
 

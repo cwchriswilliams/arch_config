@@ -354,6 +354,59 @@ Use company-mode for auto-completion
 
 #+END_SRC
 
+* Project Management
+
+** Projectile
+
+Use projectile for project management
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package projectile
+   :demand
+   :general ("C-c p" 'projectile-command-map)
+   :init (when (file-directory-p "~/D/I")
+	   (setq projectile-project-search-path '("~D/I")))
+   :config (projectile-mode +1))
+
+#+END_SRC
+
+Use ripgrep for search
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package ripgrep :demand)
+
+  (use-package projectile-ripgrep :after projectile ripgrep)
+
+#+END_SRC
+
+Counsel Support
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package counsel-projectile :after projectile :config (counsel-projectile-mode t))
+
+#+END_SRC
+
+Treemacs support
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package treemacs-projectile :after projectile)
+
+#+END_SRC
+
+** Project Management Keybinds
+
+#+BEGIN_SRC emacs-lisp
+
+  (personal/leader-key
+    "p" 'projectile-command-map
+    "ps" '(:ignore t :which-key "search"))
+
+#+END_SRC
+
 * Programming
 
 ** Parenthesis Configuration

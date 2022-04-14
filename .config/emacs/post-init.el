@@ -98,6 +98,15 @@
 
 (use-package treemacs-evil)
 
+(use-package org
+  :custom (org-ellipsis " ➤")
+  (org-log-done 'time)
+  (org-agenda-start-with-log-mode t))
+
+(use-package org-bullets
+:after org
+:hook (org-mode . org-bullets-mode))
+
 (use-package magit
  :custom (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
 

@@ -3,3 +3,4 @@
 .config/emacs/auto-save-list
 .config/i3blocks/blocks/i3blocks-contrib
 /.config/emacs/projectile-bookmarks.eld
+/.config/emacs/forge-database.sqlite

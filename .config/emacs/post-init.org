@@ -251,6 +251,29 @@ Use Treemacs as a kind of explorer like in vscode
 
 #+END_SRC
 
+* Org Mode
+
+** Basic Setup
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package org
+    :custom (org-ellipsis " ➤")
+    (org-log-done 'time)
+    (org-agenda-start-with-log-mode t))
+
+#+END_SRC
+
+** Org Bullets
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode))
+
+#+END_SRC
+
 * Git Integration
 
 ** Magit

@@ -157,7 +157,7 @@
  :demand
  :general ("C-c p" 'projectile-command-map)
  :init (when (file-directory-p "~/D/I")
-	 (setq projectile-project-search-path '("~D/I")))
+	 (setq projectile-project-search-path '("~/D/I")))
  :config (projectile-mode +1))
 
 (use-package ripgrep :demand)

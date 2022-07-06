@@ -1,19 +1,6 @@
-(defun cwchriswilliams/org-babel-auto-tangle()
-  (when (or
-	 (string-equal (buffer-file-name)
-		       (expand-file-name "~/D/I/arch_config/.config/emacs/post-init.org"))
-	 (string-equal (buffer-file-name)
-		       (expand-file-name "~/D/I/arch_config/.config/i3/config.org"))
-	 (string-equal (buffer-file-name)
-		       (expand-file-name "~/D/I/arch_config/.config/rofi/config.org"))
-	 (string-equal (buffer-file-name)
-		       (expand-file-name "~/D/I/arch_config/usr/share/X11/xorg.conf.d/41-libinput-user.org"))
-	 (string-equal (buffer-file-name)
-		       (expand-file-name "~/D/I/arch_config/.config/i3blocks/config.org"))
-	 )
-    (org-babel-tangle)))
-
-(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'cwchriswilliams/org-babel-auto-tangle)))
+(use-package org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode))
 
 (setq backup-by-copying t
     backup-directory-alist
@@ -26,6 +13,9 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+
+(tab-bar-mode 1)
+(tab-bar-history-mode 1)
 
 (global-hl-line-mode +1)
 
@@ -80,23 +70,13 @@
  :demand
  :config
  (general-create-definer personal/leader-key
-  :states '(normal visual insert motion)
-  :prefix "C-SPC")
+  :keymaps 'override
+  :prefix "S-SPC")
  (general-create-definer personal/refactor
-  :states '(normal visual insert motion)
+  :keymaps 'override
   :prefix "M-RET"))
 
-(use-package evil
-  :init (setq evil-want-keybinding nil)
-  :config (evil-mode 1))
-
-(use-package evil-collection
- :after evil
- :config (evil-collection-init))
-
 (use-package treemacs)
-
-(use-package treemacs-evil)
 
 (use-package org
   :custom (org-ellipsis " ➤")
@@ -139,9 +119,12 @@
 (counsel-describe-function-function #'helpful-callable)
 (counsel-describe-variable-function #'helpful-variable))
 
-(general-def '(normal insert visual motion)
+(use-package idle-highlight-mode
+  :hook (prog-mode . idle-highlight-mode))
+
+(general-def
    "C-'" 'avy-goto-char-timer
-   "C-f" 'swiper
+   "C-S-f" 'swiper
    "C-S-p" 'counsel-M-x
 [remap describe-function] 'counsel-describe-function
 [remap descibe-command] 'helpful-command
@@ -201,7 +184,8 @@
   :after yasnippet dash
   :config 'ivy-yasnippet)
 
-(use-package clojure-mode)
+(use-package clojure-mode
+  :config (require 'flycheck-clj-kondo))
 
 (add-hook 'clojure-mode 'lsp)
 (add-hook 'clojurescript-mode 'lsp)
@@ -212,6 +196,8 @@
 	 (clojurec-mode . clj-refactor-mode)
 	 (clojurescript-mode . clj-refactor-mode))
  :config (cljr-add-keybindings-with-prefix "M-RET"))
+
+(use-package flycheck-clj-kondo)
 
 (use-package clojure-snippets
   :after yasnippet clojure-mode)
@@ -246,7 +232,7 @@
   "eb" 'cider-eval-buffer
   "ec" 'cider-eval-commands-map)
 
-(general-def '(normal visual insert motion) "C-<return>" 'cider-eval-defun-at-point)
+(general-def "C-<return>" 'cider-eval-defun-at-point)
 
 (personal/refactor
  "a" '(:ignore t :which-key "add")
@@ -265,14 +251,18 @@
 
 (personal/leader-key "i" 'ivy-yasnippet)
 
-(use-package nov)
+(use-package nov
+ :config (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 
-(general-def '(motion normal insert visual)
- "C-z" 'undo
- "C-S-z" 'undo-redo
- "C-s" 'save-buffer
- "C-S-c" 'clipboard-kill-ring-save
- "C-S-v" 'clipboard-yank
- "C-S-x" 'clipboard-kill-region
- "C-<tab>" 'switch-to-buffer
- "C-S-f" 'projectile-ripgrep)
+(general-def
+   "C-z" 'undo
+   "C-S-z" 'undo-redo
+   "C-S-c" 'clipboard-kill-ring-save
+;   "C-S-v" 'clipboard-yank
+   "C-S-x" 'clipboard-kill-region
+   "C-<tab>" 'switch-to-buffer
+   "C-S-f" 'projectile-ripgrep)
+
+(general-def
+  "M-S-z" 'zap-up-to-char
+  "M-i" 'imenu)

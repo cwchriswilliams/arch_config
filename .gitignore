@@ -4,3 +4,8 @@
 .config/i3blocks/blocks/i3blocks-contrib
 /.config/emacs/projectile-bookmarks.eld
 /.config/emacs/forge-database.sqlite
+/.config/emacs/.cache/
+/.config/emacs/bookmarks
+/.config/emacs/image-dired/
+/.config/emacs/nov-places
+/.config/emacs/projects

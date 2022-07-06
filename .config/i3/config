@@ -176,7 +176,8 @@ client.unfocused $darkgray $darkgray $yellow $pueple $darkgray
 client.urgent $red $red $white $red $red
 
 for_window [all] title_window_icon padding 5px
-default_border pixel 3px
+#default_border pixel 3px
+default_border normal
 default_floating_border normal
 
 exec --no-startup-id ~/.fehbg

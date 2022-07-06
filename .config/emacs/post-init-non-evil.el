@@ -276,14 +276,8 @@
  :config (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 
 (general-def
-   "C-z" 'undo
-   "C-S-z" 'undo-redo
-   "C-S-c" 'clipboard-kill-ring-save
-;   "C-S-v" 'clipboard-yank
-   "C-S-x" 'clipboard-kill-region
-   "C-<tab>" 'switch-to-buffer
-   "C-S-f" 'projectile-ripgrep)
+ "C-S-f" 'projectile-ripgrep)
 
 (general-def
-  "M-S-z" 'zap-up-to-char
+  "M-Z" 'zap-up-to-char
   "M-i" 'imenu)

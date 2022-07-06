@@ -697,12 +697,6 @@ A bunch of non-emacs or vim style shortcuts that are consistent with other softw
 #+BEGIN_SRC emacs-lisp
 
   (general-def
-   "C-z" 'undo
-   "C-S-z" 'undo-redo
-   "C-S-c" 'clipboard-kill-ring-save
-;   "C-S-v" 'clipboard-yank
-   "C-S-x" 'clipboard-kill-region
-   "C-<tab>" 'switch-to-buffer
    "C-S-f" 'projectile-ripgrep)
 
 #+END_SRC
@@ -713,8 +707,8 @@ Add shortcut for zap-up-to-char similar to zap-to-char
 
 #+BEGIN_SRC emacs-lisp
 
-    (general-def
-      "M-S-z" 'zap-up-to-char
-      "M-i" 'imenu)
+      (general-def
+	"M-Z" 'zap-up-to-char
+	"M-i" 'imenu)
 
 #+END_SRC

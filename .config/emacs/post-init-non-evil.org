@@ -1,5 +1,6 @@
 #+TITLE: Emacs Configuration
-#+PROPERTY: header-args:emacs-lisp :tangle post-init-non-evil.el auto-tangle: t
+#+PROPERTY: header-args:emacs-lisp :tangle post-init-non-evil.el
+#+auto_tangle: t
 
 * Introduction
 
@@ -588,11 +589,34 @@ Depends on dash
 
 #+BEGIN_SRC emacs-lisp
 
-  (use-package cider
-    :commands (cider cider-connect cider-jack-in)
-    :custom
-    (cider-eval-toplevel-inside-comment-form t)
-    (clojure-toplevel-inside-comment-form t))
+    (use-package cider
+      :commands (cider cider-connect cider-jack-in)
+      :custom
+      (cider-eval-toplevel-inside-comment-form t)
+      (clojure-toplevel-inside-comment-form t))
+
+#+END_SRC
+
+*** Portal Setup
+
+#+BEGIN_SRC emacs-lisp
+
+  ;; Leverage an existing cider nrepl connection to evaluate portal.api functions
+;; and map them to convenient key bindings.
+
+;; def portal to the dev namespace to allow dereferencing via @dev/portal
+(defun portal.api/open ()
+  (interactive)
+  (cider-nrepl-sync-request:eval
+    "(do (ns dev) (def portal ((requiring-resolve 'portal.api/open))) (add-tap (requiring-resolve 'portal.api/submit)))"))
+
+(defun portal.api/clear ()
+  (interactive)
+  (cider-nrepl-sync-request:eval "(portal.api/clear)"))
+
+(defun portal.api/close ()
+  (interactive)
+  (cider-nrepl-sync-request:eval "(portal.api/close)"))
 
 #+END_SRC
 
@@ -608,6 +632,10 @@ Depends on dash
     "'jc" 'cider-jack-in-clj&cljs
 
     "s" 'sesman-map
+
+    "l" '(:ignore t :which-key "portal")
+    "lo" #'portal.api/open
+    "lc" #'portal.api/clear
 
     "h" '(:ignore t :which-key "doc")
     "hd" 'cider-doc

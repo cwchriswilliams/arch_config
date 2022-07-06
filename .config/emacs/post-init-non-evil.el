@@ -208,6 +208,23 @@
   (cider-eval-toplevel-inside-comment-form t)
   (clojure-toplevel-inside-comment-form t))
 
+;; Leverage an existing cider nrepl connection to evaluate portal.api functions
+;; and map them to convenient key bindings.
+
+;; def portal to the dev namespace to allow dereferencing via @dev/portal
+(defun portal.api/open ()
+  (interactive)
+  (cider-nrepl-sync-request:eval
+    "(do (ns dev) (def portal ((requiring-resolve 'portal.api/open))) (add-tap (requiring-resolve 'portal.api/submit)))"))
+
+(defun portal.api/clear ()
+  (interactive)
+  (cider-nrepl-sync-request:eval "(portal.api/clear)"))
+
+(defun portal.api/close ()
+  (interactive)
+  (cider-nrepl-sync-request:eval "(portal.api/close)"))
+
 (personal/leader-key
   "'" '(:ignore t :which-key "cider")
   "'j" '(:ignore t :which-key "jack-in")
@@ -216,6 +233,10 @@
   "'jc" 'cider-jack-in-clj&cljs
 
   "s" 'sesman-map
+
+  "l" '(:ignore t :which-key "portal")
+  "lo" #'portal.api/open
+  "lc" #'portal.api/clear
 
   "h" '(:ignore t :which-key "doc")
   "hd" 'cider-doc

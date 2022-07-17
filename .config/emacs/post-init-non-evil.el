@@ -108,29 +108,27 @@
 
 (use-package avy)
 
-(use-package counsel
-:config (counsel-mode 1)
-        (ivy-mode 1))
-
-(use-package ivy-rich
-:config (ivy-rich-mode 1))
-
-(use-package helpful
-  :custom
-(counsel-describe-function-function #'helpful-callable)
-(counsel-describe-variable-function #'helpful-variable))
-
 (use-package idle-highlight-mode
   :hook (prog-mode . idle-highlight-mode))
 
+(use-package savehist
+  :init
+  (savehist-mode))
+
+(use-package vertico
+  :init
+  (vertico-mode)
+  :custom
+  (vertico-cycle t "Vertico list cycles at the end")
+  (read-extended-command-predicate #'command-completion-default-include-p "Hide commands not valid for the current mode")
+  (enable-recursive-minibuffers t "Minibuffers can use minibuffers"))
+
+(use-package marginalia
+  :init
+  (marginalia-mode))
+
 (general-def
-   "C-'" 'avy-goto-char-timer
-   "C-S-f" 'swiper
-   "C-S-p" 'counsel-M-x
-[remap describe-function] 'counsel-describe-function
-[remap descibe-command] 'helpful-command
-[remap describe-variable] 'counsel-describe-variable
-[remap describe-key] 'helpful-key)
+ "C-'" 'avy-goto-char-timer)
 
 (use-package company
  :demand

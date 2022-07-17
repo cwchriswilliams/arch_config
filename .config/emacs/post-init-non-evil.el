@@ -81,7 +81,8 @@
 (use-package org
   :custom (org-ellipsis " ➤")
   (org-log-done 'time)
-  (org-agenda-start-with-log-mode t))
+  (org-agenda-start-with-log-mode t)
+  (org-duration-format (quote h:mm)))
 
 (use-package org-bullets
 :after org

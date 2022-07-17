@@ -217,10 +217,11 @@ Use Treemacs as a kind of explorer like in vscode
 
 #+BEGIN_SRC emacs-lisp
 
-  (use-package org
-    :custom (org-ellipsis " ➤")
-    (org-log-done 'time)
-    (org-agenda-start-with-log-mode t))
+    (use-package org
+      :custom (org-ellipsis " ➤")
+      (org-log-done 'time)
+      (org-agenda-start-with-log-mode t)
+      (org-duration-format (quote h:mm)))
 
 #+END_SRC
 

@@ -5,7 +5,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(marginalia vertico org-auto-tangle xwwp idle-highlight-mode nov company paredit rainbow-delimiters treemacs-evil treemacs helpful counsel avy magit general which-key evil-collection evil doom-modeline all-the-icons gruvbox-theme use-package))
+   '(orderless marginalia vertico org-auto-tangle xwwp idle-highlight-mode nov company paredit rainbow-delimiters treemacs-evil treemacs helpful counsel avy magit general which-key evil-collection evil doom-modeline all-the-icons gruvbox-theme use-package))
  '(safe-local-variable-values
    '((eval progn
 	   (make-variable-buffer-local 'cider-jack-in-nrepl-middlewares)

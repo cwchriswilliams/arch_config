@@ -355,6 +355,20 @@ This is useful for tools like Vertico which sort based on this history
 
 #+END_SRC
 
+** Orderless
+
+[[https://github.com/oantolin/orderless][orderless]] makes matches in completions more flexible to allow for matching on multiple parts of the string
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package orderless
+    :custom
+    (completion-styles '(orderless basic))
+    (completion-category-defaults nil)
+    (completion-category-overrides '((file (styles partial-completion)))))
+
+#+END_SRC
+
 ** Keybinds
 
 #+BEGIN_SRC emacs-lisp

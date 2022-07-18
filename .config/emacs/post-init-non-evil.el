@@ -137,13 +137,16 @@
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles partial-completion)))))
 
+(use-package corfu
+  :custom
+  (corfu-cycle t)
+  (corfu-auto t)
+  (corfu-separator ?\s)
+  :init
+  (global-corfu-mode))
+
 (general-def
  "C-'" 'avy-goto-char-timer)
-
-(use-package company
- :demand
- :config (global-company-mode)
- :general ("C-S-SPC" 'company-complete))
 
 (use-package projectile
  :demand

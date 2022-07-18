@@ -379,27 +379,28 @@ This is useful for tools like Vertico which sort based on this history
 
 #+END_SRC
 
+** Corfu
+
+[[https://github.com/minad/corfu][Corfu]] provides improvements to in-buffer completions
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package corfu
+    :custom
+    (corfu-cycle t)
+    (corfu-auto t)
+    (corfu-separator ?\s)
+    :init
+    (global-corfu-mode))
+
+#+END_SRC
+
 ** Keybinds
 
 #+BEGIN_SRC emacs-lisp
 
     (general-def
      "C-'" 'avy-goto-char-timer)
-
-#+END_SRC
-
-* Auto-Completion
-
-** Initial Setup
-
-Use company-mode for auto-completion
-
-#+BEGIN_SRC emacs-lisp
-
-  (use-package company
-   :demand
-   :config (global-company-mode)
-   :general ("C-S-SPC" 'company-complete))
 
 #+END_SRC
 

@@ -395,6 +395,21 @@ This is useful for tools like Vertico which sort based on this history
 
 #+END_SRC
 
+** Kind-Icon
+
+[[https://github.com/jdtsmith/kind-icon][kind-icon]] shows icons in auto-completion frameworks where available
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package kind-icon
+    :after corfu
+    :custom
+    (kind-icon-default-face 'corfu-default)
+    :config
+    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+#+END_SRC
+
 ** Keybinds
 
 #+BEGIN_SRC emacs-lisp
@@ -612,11 +627,11 @@ Depends on dash
 
 #+BEGIN_SRC emacs-lisp
 
-    (use-package cider
-      :commands (cider cider-connect cider-jack-in)
-      :custom
-      (cider-eval-toplevel-inside-comment-form t)
-      (clojure-toplevel-inside-comment-form t))
+  (use-package cider
+    :commands (cider cider-connect cider-jack-in)
+    :custom
+    (cider-eval-toplevel-inside-comment-form t)
+    (clojure-toplevel-inside-comment-form t))
 
 #+END_SRC
 

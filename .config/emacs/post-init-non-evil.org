@@ -295,6 +295,16 @@ Show TODOs on Status
 
 * Search/Find
 
+** Emacs
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package emacs
+    :custom
+    (isearch-wrap-pause 'no-ding "Disable the pause and the ding when search wraps around"))
+
+#+END_SRC
+
 ** Avy
 
 Avy is a quick-jump tool that works across buffers

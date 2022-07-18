@@ -106,6 +106,10 @@
  "g" '(:ignore t :which-key "git")
  "gs" 'magit-status)
 
+(use-package emacs
+  :custom
+  (isearch-wrap-pause 'no-ding "Disable the pause and the ding when search wraps around"))
+
 (use-package avy)
 
 (use-package idle-highlight-mode

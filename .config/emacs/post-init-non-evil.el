@@ -278,7 +278,9 @@
 
 (use-package dap-mode)
 
-(use-package flycheck)
+(use-package flycheck
+  :init
+  (global-flycheck-mode))
 
 (use-package yasnippet
   :config (yas-global-mode 1))

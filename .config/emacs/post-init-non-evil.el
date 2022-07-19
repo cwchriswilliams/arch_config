@@ -76,6 +76,12 @@
   :keymaps 'override
   :prefix "M-RET"))
 
+(use-package helpful
+  :general
+  ("C-h f" #'helpful-callable)
+  ("C-h v" #'helpful-variable)
+  ("C-h k" #'helpful-key))
+
 (use-package treemacs)
 
 (use-package org

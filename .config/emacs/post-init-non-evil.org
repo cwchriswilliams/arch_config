@@ -197,6 +197,22 @@ General provides smarter key-bind setup.
 
  #+END_SRC
 
+* Help
+
+** Helpful
+
+[[https://github.com/Wilfred/helpful][helpful]] is a package that provides a more helpful help
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package helpful
+    :general
+    ("C-h f" #'helpful-callable)
+    ("C-h v" #'helpful-variable)
+    ("C-h k" #'helpful-key))
+
+#+END_SRC
+
 * File Browsing
 
 ** Treemacs Setup

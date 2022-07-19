@@ -261,6 +261,10 @@
   "p" 'projectile-command-map
   "ps" '(:ignore t :which-key "search"))
 
+(use-package rfc-mode
+  :custom
+  (rfc-mode-directory (expand-file-name "~/.local/rfc")))
+
 (use-package rainbow-delimiters
  :hook (prog-mode . rainbow-delimiters-mode))
 

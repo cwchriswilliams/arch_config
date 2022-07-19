@@ -591,6 +591,20 @@ Treemacs support
 
 #+END_SRC
 
+* Documentation
+
+** RFC Mode
+
+[[https://github.com/galdor/rfc-mode][rfc-mode]] allows access to rfcs within emacs
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package rfc-mode
+    :custom
+    (rfc-mode-directory (expand-file-name "~/.local/rfc")))
+
+#+END_SRC
+
 * Programming
 
 ** Parenthesis Configuration

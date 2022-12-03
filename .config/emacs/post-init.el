@@ -1,20 +1,3 @@
-(defun cwchriswilliams/org-babel-auto-tangle()
-  (when (or
-	 (string-equal (buffer-file-name)
-		       (expand-file-name "~/D/I/arch_config/.config/emacs/post-init.org"))
-	 (string-equal (buffer-file-name)
-		       (expand-file-name "~/D/I/arch_config/.config/i3/config.org"))
-	 (string-equal (buffer-file-name)
-		       (expand-file-name "~/D/I/arch_config/.config/rofi/config.org"))
-	 (string-equal (buffer-file-name)
-		       (expand-file-name "~/D/I/arch_config/usr/share/X11/xorg.conf.d/41-libinput-user.org"))
-	 (string-equal (buffer-file-name)
-		       (expand-file-name "~/D/I/arch_config/.config/i3blocks/config.org"))
-	 )
-    (org-babel-tangle)))
-
-(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'cwchriswilliams/org-babel-auto-tangle)))
-
 (setq backup-by-copying t
     backup-directory-alist
     '(("." . "~/.emacs-backups/"))
@@ -26,6 +9,9 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+
+(tab-bar-mode 1)
+(tab-bar-history-mode 1)
 
 (global-hl-line-mode +1)
 
@@ -49,7 +35,7 @@
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/pacakges/") t)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
 (package-initialize)
 
@@ -62,6 +48,10 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
+
+(use-package org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode))
 
 (use-package gruvbox-theme
  :config (load-theme 'gruvbox-dark-medium t))
@@ -80,32 +70,31 @@
  :demand
  :config
  (general-create-definer personal/leader-key
-  :states '(normal visual insert motion)
-  :prefix "C-SPC")
+  :keymaps 'override
+  :prefix "S-SPC")
  (general-create-definer personal/refactor
-  :states '(normal visual insert motion)
+  :keymaps 'override
   :prefix "M-RET"))
 
-(use-package evil
-  :init (setq evil-want-keybinding nil)
-  :config (evil-mode 1))
-
-(use-package evil-collection
- :after evil
- :config (evil-collection-init))
+(use-package helpful
+  :general
+  ("C-h f" #'helpful-callable)
+  ("C-h v" #'helpful-variable)
+  ("C-h k" #'helpful-key))
 
 (use-package treemacs)
-
-(use-package treemacs-evil)
 
 (use-package org
   :custom (org-ellipsis " ➤")
   (org-log-done 'time)
-  (org-agenda-start-with-log-mode t))
+  (org-agenda-start-with-log-mode t)
+  (org-duration-format (quote h:mm)))
 
 (use-package org-bullets
 :after org
 :hook (org-mode . org-bullets-mode))
+
+(use-package hydra)
 
 (use-package magit
  :custom (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1))
@@ -125,52 +114,139 @@
  "g" '(:ignore t :which-key "git")
  "gs" 'magit-status)
 
+(use-package emacs
+  :custom
+  (isearch-wrap-pause 'no-ding "Disable the pause and the ding when search wraps around"))
+
 (use-package avy)
 
-(use-package counsel
-:config (counsel-mode 1)
-        (ivy-mode 1))
+(use-package idle-highlight-mode
+  :hook (prog-mode . idle-highlight-mode))
 
-(use-package ivy-rich
-:config (ivy-rich-mode 1))
+(use-package savehist
+  :init
+  (savehist-mode))
 
-(use-package helpful
+(use-package vertico
+  :init
+  (vertico-mode)
   :custom
-(counsel-describe-function-function #'helpful-callable)
-(counsel-describe-variable-function #'helpful-variable))
+  (vertico-cycle t "Vertico list cycles at the end")
+  (read-extended-command-predicate #'command-completion-default-include-p "Hide commands not valid for the current mode")
+  (enable-recursive-minibuffers t "Minibuffers can use minibuffers"))
 
-(general-def '(normal insert visual motion)
-   "C-'" 'avy-goto-char-timer
-   "C-f" 'swiper
-   "C-S-p" 'counsel-M-x
-[remap describe-function] 'counsel-describe-function
-[remap descibe-command] 'helpful-command
-[remap describe-variable] 'counsel-describe-variable
-[remap describe-key] 'helpful-key)
+(use-package marginalia
+  :init
+  (marginalia-mode))
 
-(use-package company
- :demand
- :config (global-company-mode)
- :general ("C-S-SPC" 'company-complete))
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
 
-(use-package projectile
- :demand
- :general ("C-c p" 'projectile-command-map)
- :init (when (file-directory-p "~/D/I")
-	 (setq projectile-project-search-path '("~/D/I")))
- :config (projectile-mode +1))
+(use-package corfu
+  :custom
+  (corfu-cycle t)
+  (corfu-auto t)
+  (corfu-separator ?\s)
+  :init
+  (global-corfu-mode))
 
-(use-package ripgrep :demand)
+(use-package kind-icon
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-(use-package projectile-ripgrep :after projectile ripgrep)
+(use-package consult
+  :bind (;; C-c bindings (mode-specific-map)
+       ("C-c h" . consult-history)
+       ("C-c m" . consult-mode-command)
+       ("C-c k" . consult-kmacro)
+       ;; C-x bindings (ctl-x-map)
+       ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+       ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+       ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+       ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+       ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
+       ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+       ;; Custom M-# bindings for fast register access
+       ("M-#" . consult-register-load)
+       ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+       ("C-M-#" . consult-register)
+       ;; Other custom bindings
+       ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+       ("<help> a" . consult-apropos)            ;; orig. apropos-command
+       ;; M-g bindings (goto-map)
+       ("M-g e" . consult-compile-error)
+       ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+       ("M-g g" . consult-goto-line)             ;; orig. goto-line
+       ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+       ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+       ("M-g m" . consult-mark)
+       ("M-g k" . consult-global-mark)
+       ("M-g i" . consult-imenu)
+       ("M-g I" . consult-imenu-multi)
+       ;; M-s bindings (search-map)
+       ("M-s d" . consult-find)
+       ("M-s D" . consult-locate)
+       ("M-s g" . consult-grep)
+       ("M-s G" . consult-git-grep)
+       ("M-s r" . consult-ripgrep)
+       ("M-s l" . consult-line)
+       ("M-s L" . consult-line-multi)
+       ("M-s m" . consult-multi-occur)
+       ("M-s k" . consult-keep-lines)
+       ("M-s u" . consult-focus-lines)
+       ;; Isearch integration
+       ("M-s e" . consult-isearch-history)
+       :map isearch-mode-map
+       ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+       ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+       ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+       ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
+       ;; Minibuffer history
+       :map minibuffer-local-map
+       ("M-s" . consult-history)                 ;; orig. next-matching-history-element
+       ("M-r" . consult-history))                ;; orig. previous-matching-history-element
 
-(use-package counsel-projectile :after projectile :config (counsel-projectile-mode t))
+;; Enable automatic preview at point in the *Completions* buffer. This is
+;; relevant when you use the default completion UI.
+:hook (completion-list-mode . consult-preview-at-point-mode)
 
-(use-package treemacs-projectile :after projectile)
+;; The :init configuration is always executed (Not lazy)
+:init
 
-(personal/leader-key
-  "p" 'projectile-command-map
-  "ps" '(:ignore t :which-key "search"))
+;; Optionally configure the register formatting. This improves the register
+;; preview for `consult-register', `consult-register-load',
+;; `consult-register-store' and the Emacs built-ins.
+(setq register-preview-delay 0.5
+      register-preview-function #'consult-register-format)
+
+;; Optionally tweak the register preview window.
+;; This adds thin lines, sorting and hides the mode line of the window.
+(advice-add #'register-preview :override #'consult-register-window)
+
+;; Use Consult to select xref locations with preview
+(setq xref-show-xrefs-function #'consult-xref
+      xref-show-definitions-function #'consult-xref))
+
+(use-package embark
+  :general
+  ("C-." #'embark-act)
+  ("C-;" #'embark-dwim))
+
+(use-package embark-consult
+  :after (embark consult))
+
+(general-def
+ "C-'" 'avy-goto-char-timer)
+
+(use-package rfc-mode
+  :custom
+  (rfc-mode-directory (expand-file-name "~/.local/rfc")))
 
 (use-package rainbow-delimiters
  :hook (prog-mode . rainbow-delimiters-mode))
@@ -183,35 +259,31 @@
  :custom (lsp-lens-enable t)
  :hook (lsp-mode . lsp-enable-which-key-integration))
 
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-
 (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 (use-package dap-mode)
 
-(use-package flycheck)
+(use-package flycheck
+  :init
+  (global-flycheck-mode))
 
 (use-package yasnippet
   :config (yas-global-mode 1))
 
-(use-package dash
-  :after yasnippet)
+(use-package clojure-mode
+  :config (require 'flycheck-clj-kondo))
 
-(use-package ivy-yasnippet
-  :after yasnippet dash
-  :config 'ivy-yasnippet)
-
-(use-package clojure-mode)
-
-(add-hook 'clojure-mode 'lsp)
-(add-hook 'clojurescript-mode 'lsp)
-(add-hook 'clojurec-mode 'lsp)
+(add-hook 'clojure-mode-hook 'lsp)
+(add-hook 'clojurescript-mode-hook 'lsp)
+(add-hook 'clojurec-mode-hook 'lsp)
 
 (use-package clj-refactor
   :hook ((clojure-mode . clj-refactor-mode)
 	 (clojurec-mode . clj-refactor-mode)
 	 (clojurescript-mode . clj-refactor-mode))
  :config (cljr-add-keybindings-with-prefix "M-RET"))
+
+(use-package flycheck-clj-kondo)
 
 (use-package clojure-snippets
   :after yasnippet clojure-mode)
@@ -222,6 +294,23 @@
   (cider-eval-toplevel-inside-comment-form t)
   (clojure-toplevel-inside-comment-form t))
 
+;; Leverage an existing cider nrepl connection to evaluate portal.api functions
+;; and map them to convenient key bindings.
+
+;; def portal to the dev namespace to allow dereferencing via @dev/portal
+(defun portal.api/open ()
+  (interactive)
+  (cider-nrepl-sync-request:eval
+    "(do (ns dev) (def portal ((requiring-resolve 'portal.api/open))) (add-tap (requiring-resolve 'portal.api/submit)))"))
+
+(defun portal.api/clear ()
+  (interactive)
+  (cider-nrepl-sync-request:eval "(portal.api/clear)"))
+
+(defun portal.api/close ()
+  (interactive)
+  (cider-nrepl-sync-request:eval "(portal.api/close)"))
+
 (personal/leader-key
   "'" '(:ignore t :which-key "cider")
   "'j" '(:ignore t :which-key "jack-in")
@@ -230,6 +319,10 @@
   "'jc" 'cider-jack-in-clj&cljs
 
   "s" 'sesman-map
+
+  "l" '(:ignore t :which-key "portal")
+  "lo" #'portal.api/open
+  "lc" #'portal.api/clear
 
   "h" '(:ignore t :which-key "doc")
   "hd" 'cider-doc
@@ -246,7 +339,7 @@
   "eb" 'cider-eval-buffer
   "ec" 'cider-eval-commands-map)
 
-(general-def '(normal visual insert motion) "C-<return>" 'cider-eval-defun-at-point)
+(general-def "C-<return>" 'cider-eval-defun-at-point)
 
 (personal/refactor
  "a" '(:ignore t :which-key "add")
@@ -263,16 +356,69 @@
  "t" '(:ignore t :which-key "thread")
  "u" '(:ignore t :which-key "unwind"))
 
-(personal/leader-key "i" 'ivy-yasnippet)
+(use-package nov
+ :config (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 
-(use-package nov)
-
-(general-def '(motion normal insert visual)
- "C-z" 'undo
- "C-S-z" 'undo-redo
- "C-s" 'save-buffer
- "C-S-c" 'clipboard-kill-ring-save
- "C-S-v" 'clipboard-yank
- "C-S-x" 'clipboard-kill-region
- "C-<tab>" 'switch-to-buffer
+(general-def
  "C-S-f" 'projectile-ripgrep)
+
+(general-def
+  "M-Z" 'zap-up-to-char
+  "M-i" 'imenu)
+
+(defun uuid-create ()
+"Return a newly generated UUID. This uses a simple hashing of variable data."
+(let ((s (md5 (format "%s%s%s%s%s%s%s%s%s%s"
+		      (user-uid)
+		      (emacs-pid)
+		      (system-name)
+		      (user-full-name)
+		      user-mail-address
+		      (current-time)
+		      (emacs-uptime)
+		      (garbage-collect)
+		      (random)
+		      (recent-keys)))))
+  (format "%s-%s-3%s-%s-%s"
+	  (substring s 0 8)
+	  (substring s 8 12)
+	  (substring s 13 16)
+	  (substring s 16 20)
+	  (substring s 20 32))))
+
+(defun uuid-insert ()
+"Inserts a new UUID at the point."
+(interactive)
+(insert (uuid-create)))
+
+(defun personal/cider-tap-last-sexp (&optional default-viewer)
+  "Evaluate and tap the expression preceding point.
+      If invoked with default-viewer, add this as metadata."
+  (interactive "P")
+  (cider-interactive-eval
+   (if default-viewer
+       (concat "(tap> (vary-meta "
+	       (apply #'buffer-substring-no-properties (cider-last-sexp 'bounds))
+	       " merge {:portal.viewer/default "
+	       default-viewer
+	       "}))")
+     (concat "(tap> " (apply #'buffer-substring-no-properties (cider-last-sexp 'bounds)) ")"))))
+
+(defun personal/cider-tap-last-sexp-prompt (default-viewer)
+  "Prompt the user for a viewer first"
+  (interactive (list (completing-read "Default Viewer: " '(":portal.viewer/pprint"
+							   ":portal.viewer/table"
+							   ":portal.viewer/tree"
+							   ":portal.viewer/hiccup"
+							   ":portal.viewer/tree"))))
+  (personal/cider-tap-last-sexp default-viewer))
+
+      (general-def
+       "C-S-<return>" 'personal/cider-tap-last-sexp
+       "C-S-M-<return>" 'personal/cider-tap-last-sexp-prompt)
+
+(personal/leader-key
+   "i" '(:ignore t :which-key "integrant")
+   "ir" '((lambda () (cider-interactive-eval "(do (ns dev) (reset))")) :which-key "reset")
+   "it" '((lambda () (cider-interactive-eval "(do (ns dev) (test))")) :which-key "dev")
+   "id" '((lambda () (cider-interactive-eval "(do (ns user) (dev))")) :which-key "dev"))

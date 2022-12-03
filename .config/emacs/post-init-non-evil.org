@@ -1,22 +1,10 @@
 #+TITLE: Emacs Configuration
-#+PROPERTY: header-args:emacs-lisp :tangle post-init-non-evil.el
+#+PROPERTY: header-args:emacs-lisp :tangle post-init.el
 #+auto_tangle: t
 
 * Introduction
 
   This file will generate a post-init.el file. This should be loaded from init.el with ~(load-file "path-to-post-init.el")~
-
-* Auto-Tangle
-
-  Sets up Auto tangle on save
-
-#+BEGIN_SRC emacs-lisp
-
-  (use-package org-auto-tangle
-    :defer t
-    :hook (org-mode . org-auto-tangle-mode))
-
-#+END_SRC
 
 * Backups
 
@@ -144,6 +132,19 @@ Setup use-package which allows for cleaner specification of pacakges and package
 
 #+END_SRC
 
+* Auto-Tangle
+
+  Sets up Auto tangle on save
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package org-auto-tangle
+    :defer t
+    :hook (org-mode . org-auto-tangle-mode))
+
+#+END_SRC
+
+
 * Theme
 
 #+BEGIN_SRC emacs-lisp
@@ -248,6 +249,16 @@ Use Treemacs as a kind of explorer like in vscode
   (use-package org-bullets
   :after org
   :hook (org-mode . org-bullets-mode))
+
+#+END_SRC
+
+* Hydra
+
+Hydra is a package for defining keyboard shortcuts in different ways
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package hydra)
 
 #+END_SRC
 
@@ -538,59 +549,6 @@ For now using the example keybindings from the github.com page
 
 #+END_SRC
 
-* Project Management
-
-** Projectile
-
-Use projectile for project management
-
-#+BEGIN_SRC emacs-lisp
-
-  (use-package projectile
-   :demand
-   :general ("C-c p" 'projectile-command-map)
-   :init (when (file-directory-p "~/D/I")
-	   (setq projectile-project-search-path '("~/D/I")))
-   :config (projectile-mode +1))
-
-#+END_SRC
-
-Use ripgrep for search
-
-#+BEGIN_SRC emacs-lisp
-
-  (use-package ripgrep :demand)
-
-  (use-package projectile-ripgrep :after projectile ripgrep)
-
-#+END_SRC
-
-Counsel Support
-
-#+BEGIN_SRC emacs-lisp
-
-  (use-package counsel-projectile :after projectile :config (counsel-projectile-mode t))
-
-#+END_SRC
-
-Treemacs support
-
-#+BEGIN_SRC emacs-lisp
-
-  (use-package treemacs-projectile :after projectile)
-
-#+END_SRC
-
-** Project Management Keybinds
-
-#+BEGIN_SRC emacs-lisp
-
-  (personal/leader-key
-    "p" 'projectile-command-map
-    "ps" '(:ignore t :which-key "search"))
-
-#+END_SRC
-
 * Documentation
 
 ** RFC Mode
@@ -646,14 +604,6 @@ Language Server Protocol setup (connects to a running external language server t
 
 #+END_SRC
 
-*** Ivy Support
-
-#+BEGIN_SRC emacs-lisp
-
-  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-
-#+END_SRC
-
 *** Treemacs Support
 
 #+BEGIN_SRC emacs-lisp
@@ -693,21 +643,6 @@ Language Server Protocol setup (connects to a running external language server t
 
 #+END_SRC
 
-*** ivy previews
-
-Depends on dash
-
-#+BEGIN_SRC emacs-lisp
-
-  (use-package dash
-    :after yasnippet)
-
-  (use-package ivy-yasnippet
-    :after yasnippet dash
-    :config 'ivy-yasnippet)
-
-#+END_SRC
-
 ** Clojure Support
 
 *** Add Clojure-Mode
@@ -723,9 +658,9 @@ Depends on dash
 
 #+BEGIN_SRC emacs-lisp
 
-  (add-hook 'clojure-mode 'lsp)
-  (add-hook 'clojurescript-mode 'lsp)
-  (add-hook 'clojurec-mode 'lsp)
+  (add-hook 'clojure-mode-hook 'lsp)
+  (add-hook 'clojurescript-mode-hook 'lsp)
+  (add-hook 'clojurec-mode-hook 'lsp)
 
 #+END_SRC
 
@@ -846,12 +781,6 @@ Depends on dash
 
 ** Programming Keybinds
 
-#+BEGIN_SRC emacs-lisp
-
-  (personal/leader-key "i" 'ivy-yasnippet)
-
-#+END_SRC
-
 * E-books
 
 ** nov.el setup
@@ -884,4 +813,80 @@ Add shortcut for zap-up-to-char similar to zap-to-char
 	"M-Z" 'zap-up-to-char
 	"M-i" 'imenu)
 
+#+END_SRC
+
+* UUID Generator
+
+Comes via [[https://nullprogram.com/blog/2010/05/11/][Chris Wellons]]. Generates a uuid in emacs. I use this only for generating uuids for test data.
+
+#+BEGIN_SRC emacs-lisp
+
+  (defun uuid-create ()
+  "Return a newly generated UUID. This uses a simple hashing of variable data."
+  (let ((s (md5 (format "%s%s%s%s%s%s%s%s%s%s"
+			(user-uid)
+			(emacs-pid)
+			(system-name)
+			(user-full-name)
+			user-mail-address
+			(current-time)
+			(emacs-uptime)
+			(garbage-collect)
+			(random)
+			(recent-keys)))))
+    (format "%s-%s-3%s-%s-%s"
+	    (substring s 0 8)
+	    (substring s 8 12)
+	    (substring s 13 16)
+	    (substring s 16 20)
+	    (substring s 20 32))))
+
+  (defun uuid-insert ()
+  "Inserts a new UUID at the point."
+  (interactive)
+  (insert (uuid-create)))
+
+#+END_SRC
+
+
+* Tap Helper
+
+#+BEGIN_SRC emacs-lisp
+
+  (defun personal/cider-tap-last-sexp (&optional default-viewer)
+    "Evaluate and tap the expression preceding point.
+	If invoked with default-viewer, add this as metadata."
+    (interactive "P")
+    (cider-interactive-eval
+     (if default-viewer
+	 (concat "(tap> (vary-meta "
+		 (apply #'buffer-substring-no-properties (cider-last-sexp 'bounds))
+		 " merge {:portal.viewer/default "
+		 default-viewer
+		 "}))")
+       (concat "(tap> " (apply #'buffer-substring-no-properties (cider-last-sexp 'bounds)) ")"))))
+
+  (defun personal/cider-tap-last-sexp-prompt (default-viewer)
+    "Prompt the user for a viewer first"
+    (interactive (list (completing-read "Default Viewer: " '(":portal.viewer/pprint"
+							     ":portal.viewer/table"
+							     ":portal.viewer/tree"
+							     ":portal.viewer/hiccup"
+							     ":portal.viewer/tree"))))
+    (personal/cider-tap-last-sexp default-viewer))
+
+	(general-def
+	 "C-S-<return>" 'personal/cider-tap-last-sexp
+	 "C-S-M-<return>" 'personal/cider-tap-last-sexp-prompt)
+
+#+END_SRC
+
+* Integrant Helper
+
+#+BEGIN_SRC emacs-lisp
+  (personal/leader-key
+     "i" '(:ignore t :which-key "integrant")
+     "ir" '((lambda () (cider-interactive-eval "(do (ns dev) (reset))")) :which-key "reset")
+     "it" '((lambda () (cider-interactive-eval "(do (ns dev) (test))")) :which-key "dev")
+     "id" '((lambda () (cider-interactive-eval "(do (ns user) (dev))")) :which-key "dev"))
 #+END_SRC
